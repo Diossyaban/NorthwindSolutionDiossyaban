@@ -49,14 +49,18 @@ namespace Northwind.Persistence
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<Territory> Territories { get; set; }
 
-/*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Northwind;Trusted_Connection=True");
-            }
-        }*/
+        //newDay08
+        public virtual DbSet<ProductPhoto> ProductPhotos { get; set; }
+
+
+        /*        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+                {
+                    if (!optionsBuilder.IsConfigured)
+                    {
+        #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                        optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=Northwind;Trusted_Connection=True");
+                    }
+                }*/
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -829,6 +833,26 @@ namespace Northwind.Persistence
                     .HasForeignKey(d => d.RegionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Territories_Region");
+            });
+
+
+            modelBuilder.Entity<ProductPhoto>(entity =>
+            {
+                entity.HasKey(e => e.PhotoId)
+                    .HasName("PK_ProductPhotoId");
+
+                entity.Property(e => e.PhotoFileType)
+                    .HasMaxLength(55)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhotoFilename)
+                    .HasMaxLength(55)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.PhotoProduct)
+                    .WithMany(p => p.ProductPhotos)
+                    .HasForeignKey(d => d.PhotoProductId)
+                    .HasConstraintName("FK_ProductPhotoIdProduct");
             });
 
             OnModelCreatingPartial(modelBuilder);

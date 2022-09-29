@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Northwind.Contracts.Dto.Product;
+using Northwind.Contracts.Dto.Category;
 using Northwind.Domain.Models;
 using Northwind.Persistence;
 using Northwind.Services.Abstraction;
@@ -71,6 +74,54 @@ namespace Northwind.Web.Controllers
             ViewBag.PagedList = new SelectList(new List<int> { 8, 15, 20 });
             return View(productDtoPaged);
         }
+        //HARI 8 28-09-2022
+        [HttpPost]
+        public async Task<IActionResult> CreateProductPhoto(ProductPhotoGroupDto productPhotoDto)
+        {
+            var latestProductId = _context.ProductService.CreateProductId(productPhotoDto.productForCreateDto);
+            if (ModelState.IsValid)
+            {
+                try
+
+                {
+                    var file = productPhotoDto.AllPhoto;
+                    var folderName = Path.Combine("Resources", "images");
+                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    if (file.Count > 0)
+                    {
+                        foreach (var item in file)
+                        {
+                            var fileName = ContentDispositionHeaderValue.Parse(item.ContentDisposition).FileName.Trim('"');
+                            var fullPath = Path.Combine(pathToSave, fileName);
+                            var dbPath = Path.Combine(folderName, fileName);
+                            using (var stream = new FileStream(fullPath, FileMode.Create))
+                            {
+                                item.CopyTo(stream);
+
+                            }
+                            var convertSize = (Int16)item.Length;
+
+                            var productPhoto = new ProductPhotoCreateDto
+                            {
+                                PhotoFilename = fileName,
+                                PhotoFileType = item.ContentType,
+                                PhotoFileSize = (byte)convertSize,
+                                PhotoProductId = latestProductId.ProductId
+                            };
+                            _context.ProductPhotoService.Insert(productPhoto);
+                        }
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+            return View();
+        }
+         
 
         // GET: ProductsService/Details/5
         public async Task<IActionResult> Details(int? id)
