@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Northwind.Contracts.Dto.Product;
 using Northwind.Contracts.Dto.Category;
+using Northwind.Contracts.Dto.Product;
 using Northwind.Domain.Models;
 using Northwind.Persistence;
 using Northwind.Services.Abstraction;
@@ -19,14 +19,17 @@ namespace Northwind.Web.Controllers
     public class ProductsPagedServerController : Controller
     {
         private readonly IServiceManager _context;
+        private readonly IUtilityService _utilityService;
 
-        public ProductsPagedServerController(IServiceManager context)
+        public ProductsPagedServerController(IServiceManager context, IUtilityService utilityService)
         {
             _context = context;
+            _utilityService = utilityService;
         }
 
-        // GET: ProductsService
-        public async Task<IActionResult> Index(string searchString, string currentFilter, string sortOrder, int? page, int? fetchSize)
+        // GET: ProductsService4
+        public async Task<IActionResult> Index(string searchString, string currentFilter,
+            string sortOrder, int? page, int? fetchSize)
         {
             var pageIndex = page ?? 1;
             var pageSize = fetchSize ?? 5;
@@ -48,7 +51,6 @@ namespace Northwind.Web.Controllers
                 p.Supplier.CompanyName.ToLower().Contains(searchString.ToLower()));
             }
 
-            
             ViewBag.ProductNameSort = String.IsNullOrEmpty(sortOrder) ? "product_name" : "";
             ViewBag.UnitPriceSort = sortOrder == "price" ? "unit_price" : "price";
 
@@ -74,15 +76,14 @@ namespace Northwind.Web.Controllers
             ViewBag.PagedList = new SelectList(new List<int> { 8, 15, 20 });
             return View(productDtoPaged);
         }
-        //HARI 8 28-09-2022
-        [HttpPost]
+
+        /*[HttpPost]
         public async Task<IActionResult> CreateProductPhoto(ProductPhotoGroupDto productPhotoDto)
         {
             var latestProductId = _context.ProductService.CreateProductId(productPhotoDto.productForCreateDto);
             if (ModelState.IsValid)
             {
                 try
-
                 {
                     var file = productPhotoDto.AllPhoto;
                     var folderName = Path.Combine("Resources", "images");
@@ -97,8 +98,8 @@ namespace Northwind.Web.Controllers
                             using (var stream = new FileStream(fullPath, FileMode.Create))
                             {
                                 item.CopyTo(stream);
-
                             }
+
                             var convertSize = (Int16)item.Length;
 
                             var productPhoto = new ProductPhotoCreateDto
@@ -109,19 +110,47 @@ namespace Northwind.Web.Controllers
                                 PhotoProductId = latestProductId.ProductId
                             };
                             _context.ProductPhotoService.Insert(productPhoto);
+
                         }
                         return RedirectToAction(nameof(Index));
                     }
                 }
-
                 catch (Exception ex)
                 {
                     throw;
                 }
             }
-            return View();
+            return View("Create");
+        }*/
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProductPhoto(ProductPhotoGroupDto productPhotoDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var productPhotoGroup = productPhotoDto;
+                var listPhoto = new List<ProductPhotoCreateDto>();
+                foreach (var itemPhoto in productPhotoGroup.AllPhoto)
+                {
+                    var fileName = _utilityService.UploadSingleFile(itemPhoto);
+                    var convertSize = (Int16)itemPhoto.Length;
+                    var photo = new ProductPhotoCreateDto
+                    {
+                        PhotoFilename = fileName,
+                        PhotoFileSize = (byte)convertSize,
+                        PhotoFileType = itemPhoto.ContentType
+                    };
+                    listPhoto.Add(photo);
+                }
+                _context.ProductService.CreateProductManyPhoto(productPhotoGroup.productForCreateDto, listPhoto);
+                return RedirectToAction(nameof(Index));
+            }
+            var allCategory = await _context.CategoryService.GetAllCategory(false);
+            var allSupplier = await _context.SupplierService.GetAllSupplier(false);
+            ViewData["CategoryId"] = new SelectList(allCategory, "CategoryId", "CategoryName");
+            ViewData["SupplierId"] = new SelectList(allSupplier, "SupplierId", "CompanyName");
+            return View("Create");
         }
-         
 
         // GET: ProductsService/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -161,6 +190,7 @@ namespace Northwind.Web.Controllers
                 _context.ProductService.Insert(product);
                 return RedirectToAction(nameof(Index));
             }
+
             var allCategory = await _context.CategoryService.GetAllCategory(false);
             var allSupplier = await _context.SupplierService.GetAllSupplier(false);
             ViewData["CategoryId"] = new SelectList(allCategory, "CategoryId", "CategoryName", product.CategoryId);

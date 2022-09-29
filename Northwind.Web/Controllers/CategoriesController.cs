@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Northwind.Contracts.Dto;
 using Northwind.Domain.Entities;
 using Northwind.Persistence;
+using Northwind.Services.Abstraction;
 
 namespace Northwind.Web.Controllers
 {
@@ -66,7 +67,7 @@ namespace Northwind.Web.Controllers
                     var file = categoryDto.FilePhoto;
                     var folderName = Path.Combine("Resources", "images");
                     var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    if(file.Length >0)
+                    if (file.Length > 0)
                     {
                         var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                         var fullPath = Path.Combine(pathToSave, fileName);
@@ -97,7 +98,7 @@ namespace Northwind.Web.Controllers
 
             }
             return View(categoryDto);
-            
+
             /* if (ModelState.IsValid)
             {
                 _context.Add(category);

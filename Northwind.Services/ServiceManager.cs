@@ -2,6 +2,7 @@
 using Northwind.Domain.Base;
 using Northwind.Services.Abstraction;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,5 +34,7 @@ namespace Northwind.Services
         public IProductService ProductService => _lazyProductService.Value;
 
         public IProductPhotoService ProductPhotoService => _lazyProductPhotoService.Value;
+
+    
     }
 }
