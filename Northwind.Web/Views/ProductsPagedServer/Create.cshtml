@@ -53,7 +53,7 @@
     <div class="col-9">
         <div class="row text-center text-lg-start">
             <div class="col-lg-4 col-md-4 col-6">
-                <img id="preview1" style="width:250px;height:250px" src="../Resources/images/default.jpeg">
+                <img id="preview1" style="width:250px;height:250px" src="../Resources/images/avf.png">
                 @Html.TextBoxFor(model => model.AllPhoto,"",
                 new{@type="file",@accept="image/*", @onchange="previewImage(this,'preview1')"})
                 <input type="button" onclick="clearPhoto('AllPhoto','preview1')" value="Clear Photo">
@@ -61,7 +61,7 @@
                 @Html.ValidationMessage("AllPhoto",new {@class="text-danger"})
             </div>
             <div class="col-lg-4 col-md-4 col-6">
-                <img id="preview2" style="width:250px;height:250px" src="../Resources/images/default.jpeg">
+                <img id="preview2" style="width:250px;height:250px" src="../Resources/images/avf.png">
                 @Html.TextBoxFor(model => model.AllPhoto,"",
                 new{@type="file",@accept="image/*", @onchange="previewImage(this,'preview2')"})
                 <input type="button" onclick="clearPhoto('AllPhoto','preview2')" value="Clear Photo">
@@ -69,7 +69,7 @@
                 @Html.ValidationMessage("AllPhoto",new {@class="text-danger"})
             </div>
             <div class="col-lg-4 col-md-4 col-6">
-                <img id="preview3" style="width:250px;height:250px" src="../Resources/images/default.jpeg">
+                <img id="preview3" style="width:250px;height:250px" src="../Resources/images/avf.png">
                 @Html.TextBoxFor(model => model.AllPhoto,"",
                 new{@type="file",@accept="image/*", @onchange="previewImage(this,'preview3')"})
                 <input type="button" onclick="clearPhoto('AllPhoto','preview3')" value="Clear Photo">

@@ -1,9 +1,11 @@
 ﻿using Northwind.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.XPath;
 
 namespace Northwind.Domain.Repositories
 {
@@ -12,8 +14,11 @@ namespace Northwind.Domain.Repositories
         Task<IEnumerable<Product>> GetAllProduct(bool trackChanges);
 
         Task<Product> GetProductById(int productId, bool trackChanges);
+        Task<Product> GetProductOnSalesById(int productId, bool trackChanges);
 
         Task<IEnumerable<Product>> GetProductPaged(int pageIndex, int pageSize, bool trackChanges);
+
+        Task<IEnumerable<Product>> GetProductOnSales(bool trackChanges);
 
         void Insert(Product product);
 

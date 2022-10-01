@@ -34,5 +34,7 @@ namespace Northwind.Contracts.Dto.Product
         public short? ReorderLevel { get; set; }
         public bool Discontinued { get; set; }
 
+        public virtual CategoriesDto CategoryDto { get; set; }    
+
     }
 }

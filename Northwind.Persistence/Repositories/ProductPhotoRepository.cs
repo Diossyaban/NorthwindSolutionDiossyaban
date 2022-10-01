@@ -23,26 +23,26 @@ namespace Northwind.Persistence.Repositories
 
         public async Task<IEnumerable<ProductPhoto>> GetAllProductPhoto(bool trackChanges)
         {
-            return await  FindAll(trackChanges)
-               .OrderBy(p => p.PhotoId)
-               .Include(s => s.PhotoProduct)
-               .ToListAsync();
+            return await FindAll(trackChanges)
+                .OrderBy(p => p.PhotoId)
+                .Include(s => s.PhotoProduct)
+                .ToListAsync();
         }
 
         public async Task<ProductPhoto> GetProductPhotoById(int ProductPhotoId, bool trackChanges)
         {
-            return await FindByCondition(p => p.PhotoId.Equals(ProductPhotoId), trackChanges)
-                            .Include(s => s.PhotoProduct)
-                            .SingleOrDefaultAsync();
+            return await FindByCondition(p => p.PhotoProductId.Equals(ProductPhotoId), trackChanges)
+                .Include(s => s.PhotoProduct)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<ProductPhoto>> GetProductPhotoPaged(int pageIndex, int pageSize, bool trackChanges)
         {
-            return await  FindAll(trackChanges).OrderBy(p => p.PhotoProductId)
-           .Include(s => s.PhotoProduct)
-           .Skip((pageIndex - 1) * pageSize)
-           .Take(pageSize)
-           .ToListAsync();
+            return await FindAll(trackChanges).OrderBy(p => p.PhotoProductId)
+                .Include(s => s.PhotoProduct)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public void Insert(ProductPhoto ProductPhoto)
@@ -56,4 +56,3 @@ namespace Northwind.Persistence.Repositories
         }
     }
 }
-
