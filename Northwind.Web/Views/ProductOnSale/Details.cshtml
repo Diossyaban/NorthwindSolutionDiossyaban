@@ -3,7 +3,7 @@
 
 <div class="col-md-6 col-lg-4">
     <div class="card mb-4">
-        <img class="card-img-top" src="@Url.Content("~/Resources/images/" + Model.ProductPhotos.FirstOrDefault().PhotoFilename)" alt="Card image cap">
+        <img class="card-img-top"  src="@Url.Content("~/Resources/images/" + Model.ProductPhotos.FirstOrDefault().PhotoFilename)" alt="Card image cap">
         <div class="card-body">
             <p class="card-text">
                 <center><b>@Html.DisplayFor(model=>model.ProductName)</b></center>
@@ -17,5 +17,12 @@
             </p>
         </div>
     </div>
+</div>
+<div class="col-md-6 col-lg-4">
+    <h2>@Html.DisplayFor(Model=>Model.ProductName)</h2>
+
+    <h4> WELCOME TO DI-OS GUITAR HEAVEN</h4>
+
+
 </div>
 <a asp-action="Index">Back to List</a>

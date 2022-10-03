@@ -2,10 +2,22 @@
 
 <h4>Products On Sale</h4>
 
+<div class="flex-lg-warp">
+
+    @using(Html.BeginForm("Index","ProductOnSale", FormMethod.Get))
+    {
+        <div> 
+            <p>
+                Find By @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { placeholder ="Product Name"})
+                <input type ="submit" value="Search"/>
+            </p>
+            </div>
+    }
+</div>
+
 @foreach (var item in Model)
 {
     <div class="col-md-6 col-lg-4">
-        <a asp-action="Details" asp-route-id="@item.ProductId">
             <div class="card mb-4">
                 <img class="card-img-top" src="@Url.Content("~/Resources/images/" + item.ProductPhotos.FirstOrDefault().PhotoFilename)" alt="Card image cap">
                 <div class="card-body">
@@ -19,8 +31,15 @@
                         @Html.LabelFor(modelItem => item.UnitsInStock, htmlAttributes : new{@class="form-label"}) :
                         @Html.DisplayFor(modelItem => item.UnitsInStock)
                     </p>
+                            <a asp-action="Details" asp-route-id="@item.ProductId">
+                                <button class="btn-warning me-md-2" type="button">Detail</button>
+                                </a>
+                        <a asp-action="" asp-route-id="@item.ProductId">
+                            <button class="btn-danger me-md-2" type="button">Add To Cart</button>
+                        </a>
+
                 </div>
             </div>
-        </a>
+        
     </div>
 }
