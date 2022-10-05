@@ -37,6 +37,10 @@
                         <a asp-action="" asp-route-id="@item.ProductId">
                             <button class="btn-danger me-md-2" type="button">Add To Cart</button>
                         </a>
+                                                    <a asp-action="Details" asp-route-id="@item.ProductId">
+
+                    <img class="card-img-top" style="width:110px" src="@Url.Content("~/Resources/images/mama.png")" alt="Card image cap">
+                </a>
 
                 </div>
             </div>
