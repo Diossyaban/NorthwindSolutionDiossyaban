@@ -1,25 +1,46 @@
 ﻿@model IEnumerable<Northwind.Contracts.Dto.Product.ProductDto>
-
-<h4>Products On Sale</h4>
-
 <div class="flex-lg-warp">
+    <h4>Products On Sale</h4>
+    <link href="~/css/Index.css" rel="stylesheet" type="text/css" />
 
-    @using(Html.BeginForm("Index","ProductOnSale", FormMethod.Get))
+
+    @using (Html.BeginForm("Index", "ProductOnSale", FormMethod.Get))
     {
-        <div> 
+        <div>
             <p>
-                Find By @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { placeholder ="Product Name"})
-                <input type ="submit" value="Search"/>
+                @*Find By @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new { placeholder ="Product Name"})
+                <input type="submit" value="Search" />*@
+                <div class="form-group">
+                    <input type="text" class="form-control" name="s" value="" id="s" placeholder="What are you looking for?">
+                </div>
+
             </p>
-            </div>
+        </div>
+
+
     }
 </div>
+
+@*<img src="/css/dios.jpg"home-slide-image">
+*@
+<br />
+<br />
+
+
+@*<div class="smoke__bg"><div class="mega__hub shadow" id="about"><div class="mega__hub-heading">
+*@         
+
 
 @foreach (var item in Model)
 {
     <div class="col-md-6 col-lg-4">
+
             <div class="card mb-4">
+                                            <a asp-action="Details" asp-route-id="@item.ProductId">
+
                 <img class="card-img-top" src="@Url.Content("~/Resources/images/" + item.ProductPhotos.FirstOrDefault().PhotoFilename)" alt="Card image cap">
+                </a>
+
                 <div class="card-body">
                     <p class="card-text">
                         <center><b>@Html.DisplayFor(modelItem => item.ProductName)</b></center>
@@ -30,19 +51,54 @@
                         <br>
                         @Html.LabelFor(modelItem => item.UnitsInStock, htmlAttributes : new{@class="form-label"}) :
                         @Html.DisplayFor(modelItem => item.UnitsInStock)
+                        <br>
+                  <center></center>  <img class="card-img-top" style="width:100px" src="@Url.Content("~/Resources/images/mama.png")" alt="Card image cap">
+                   
+                  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+                    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+                    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+                    <!------ Include the above in your HEAD tag ---------->
+
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-danger btn-number" data-type="minus" data-field="quant[2]">
+                                <span class="glyphicon glyphicon-minus"></span>
+                            </button>
+                        </span>
+                        <input type="text" name="quant[2]" class="form-control input-number" value="" min="1" max="100" placeholder="Kuantitas">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-danger btn-number" data-type="plus" data-field="quant[2]">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </span>
+                    </div>
+
                     </p>
-                            <a asp-action="Details" asp-route-id="@item.ProductId">
-                                <button class="btn-warning me-md-2" type="button">Detail</button>
-                                </a>
-                        <a asp-action="" asp-route-id="@item.ProductId">
-                            <button class="btn-danger me-md-2" type="button">Add To Cart</button>
+                           
+                        <a asp-action="" asp-route-id="@item">
+                            <button type="submit" class="btn-danger me-md-2" type="button">Add To Cart</button>
                         </a>
-                                                    <a asp-action="Details" asp-route-id="@item.ProductId">
+                        <a asp-action="" asp-route-id="@item.ProductId">
+                            <button type="submit"class="btn-danger me-md-2" type="button">Buy Now</button>
+                        </a>
+                <div class="share">
+                    <h3>Share : </h3>
+                    <!-- AddThis Button BEGIN -->
+                    <div class="addthis_toolbox addthis_default_style addthis_16x16_style wrapper">
+                        <a class="addthis_button_facebook at300b" title="Facebook" href="#"><img style="width:30px" src="https://www.nafiriguitar.com/resources/images/facebook_share.png?hash=1cec3450" alt="Facebook Share"></a>
+                        <a class="addthis_button_twitter at300b" title="Twitter" href="#"><img style="width:30px" src="https://www.nafiriguitar.com/resources/images/twitter_share.png?hash=1cec3450" alt="Twitter Share"></a>
+                        <a class="addthis_button_pinterest_share at300b" target="_blank" title="Pinterest" href="#"><img style="width:30px" src="https://www.nafiriguitar.com/resources/images/pinterest_share.png?hash=1cec3450" alt="Pinterest Share"></a>
+                        <div class="atclear"></div>
+                    </div>
 
-                    <img class="card-img-top" style="width:110px" src="@Url.Content("~/Resources/images/mama.png")" alt="Card image cap">
-                </a>
-
+                    <script type="text/javascript">var addthis_config = { "data_track_addressbar": true };</script>
+                    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js?domready=1#pubid=ra-51a2f6f07fcdd9ab"></script>
+                    <!-- AddThis Button END -->
                 </div>
+
+                                                 
+                </div>
+
             </div>
         
     </div>

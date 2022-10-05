@@ -17,6 +17,7 @@ namespace Northwind.Persistence.Base
         private IProductRepository _productRepository;
         private ISupplierRepository _supplierRepository;
         private IProductPhotoPhotoRepository _productPhotoRepository;
+        private IOrderDetailRepository _orderDetailRepository;
 
         public RepositoryManager(NorthwindContext dbContext)
         {
@@ -80,6 +81,19 @@ namespace Northwind.Persistence.Base
                     _productPhotoRepository = new ProductPhotoRepository(_dbContext);
                 }
                 return _productPhotoRepository;
+            }
+        }
+
+        IOrderDetailRepository IRepositoryManager.orderDetailRepository
+        {
+            get
+            {
+                if (_orderDetailRepository==null)
+                {
+                    _orderDetailRepository=new OrderDetailRepository(_dbContext);
+
+                }
+                return _orderDetailRepository;
             }
         }
 
