@@ -1,4 +1,5 @@
-﻿using Northwind.Contracts.Dto.OrderDetail;
+﻿using Northwind.Contracts.Dto.Category;
+using Northwind.Contracts.Dto.OrderDetail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,14 @@ namespace Northwind.Services.Abstraction
     public interface IOrderDetailService
     {
         Task<IEnumerable<OrderDetailDto>> GetAllOrderDetail(bool trackChanges);
-        Task<OrderDetailDto> GetOrderDetailById(int orderid, bool trackChanges);
-        
-        void Insert (OrderDetailForCreateDto orderDetailForCreateDto);
-        void Edit(OrderDetailDto orderDetailDto);
-        void Remove(OrderDetailDto orderDetailDto);
-    }
 
+        Task<OrderDetailDto> GetOrderDetail(int orderId, int productId, bool trackChanges);
+        Task<OrderDetailDto> GetOrderDetailById(int orderId, bool trackChanges);
+
+        void Insert(OrderDetailForCreateDto OrderDetailForCreateDto);
+
+        void Edit(OrderDetailDto OrderDetailDto);
+
+        void Remove(OrderDetailDto OrderDetailDto);
+    }
 }

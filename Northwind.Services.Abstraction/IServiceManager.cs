@@ -15,6 +15,7 @@ namespace Northwind.Services.Abstraction
         IProductPhotoService ProductPhotoService { get; }
 
         IOrderDetailService OrderDetailService { get; }
+        IOrderService OrderService { get; }
        
     }
 }

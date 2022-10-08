@@ -16,29 +16,45 @@ namespace Northwind.Persistence.Repositories
         {
         }
 
-        public void Edit(OrderDetail orderDetail)
+        public void Edit(OrderDetail OrderDetails)
         {
-            throw new NotImplementedException();
+            Update(OrderDetails);
         }
 
         public async Task<IEnumerable<OrderDetail>> GetAllOrder(bool trackChanges)
         {
-            return await FindAll(trackChanges).OrderBy(o => o.OrderId).ToListAsync();
+            return await FindAll(trackChanges).OrderBy(x=>x.ProductId)
+                .Include(p => p.Product)
+                .Include(o => o.Order)
+                .ToListAsync();
         }
 
+     
+        public async Task<OrderDetail> GetOrderDetail(int OrderDetailsId, int productId, bool trackChanges)
+        {
+            return await FindByCondition(x => x.OrderId.Equals(OrderDetailsId) && x.ProductId.Equals(productId), trackChanges)
+                .Include(p => p.Product)
+                .Include(o => o.Order)
+                .SingleOrDefaultAsync();
+        }
+
+      
         public async Task<OrderDetail> GetOrderDetailsById(int orderId, bool trackChanges)
         {
-            return await FindByCondition(o => o.OrderId.Equals(orderId), trackChanges).SingleOrDefaultAsync();
+            return await  FindByCondition(x => x.OrderId.Equals(orderId), trackChanges)
+                           .Include(p => p.Product)
+                           .Include(o => o.Order)
+                           .SingleOrDefaultAsync();
         }
 
-        public void Insert(OrderDetail orderDetail)
+        public void Insert(OrderDetail OrderDetails)
         {
-            throw new NotImplementedException();
+            Create(OrderDetails);
         }
 
-        public void Remove(OrderDetail orderDetail)
+        public void Remove(OrderDetail OrderDetails)
         {
-            throw new NotImplementedException();
+            Delete(OrderDetails);
         }
     }
 }

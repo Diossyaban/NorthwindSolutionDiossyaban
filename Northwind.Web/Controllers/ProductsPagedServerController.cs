@@ -199,7 +199,7 @@ namespace Northwind.Web.Controllers
             {
                 return NotFound();
             }
-            var product = await _context.ProductService.GetProductPhotoById((int)id, true);
+            var product = await _context.ProductService.GetProductById((int)id, true);
             if (product == null)
             {
                 return NotFound();

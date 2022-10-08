@@ -38,6 +38,13 @@ namespace Northwind.Services
             return orderDetailDtoList;
         }
 
+        public async Task<OrderDetailDto> GetOrderDetail(int orderId, int productId, bool trackChanges)
+        {
+            var model = await  _repositoryManager.orderDetailRepository.GetOrderDetail(orderId, productId, trackChanges);
+            var dto = _mapper.Map<OrderDetailDto>(model);
+            return dto;
+        }
+
         public async Task<OrderDetailDto> GetOrderDetailById(int orderid, bool trackChanges)
         {
             var orderDtos = await _repositoryManager.orderDetailRepository.GetOrderDetailsById(orderid, trackChanges);

@@ -1,4 +1,5 @@
-﻿using Northwind.Contracts.Dto.Product;
+﻿using Northwind.Contracts.Dto.Order;
+using Northwind.Contracts.Dto.Product;
 using Northwind.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Northwind.Contracts.Dto.OrderDetail
         public short Quantity { get; set; }
         public float Discount { get; set; }
 
-/*        public virtual Order Order { get; set; }
-*/        public virtual ProductDto Product { get; set; }
+        public virtual OrderDto Order { get; set; }
+        public virtual ProductDto Product { get; set; }
     }
 }

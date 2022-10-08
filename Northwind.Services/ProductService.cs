@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Northwind.Contracts.Dto.Order;
+using Northwind.Contracts.Dto.OrderDetail;
 using Northwind.Contracts.Dto.Product;
 using Northwind.Contracts.Dto.Supplier;
 using Northwind.Domain.Base;
@@ -21,6 +23,20 @@ namespace Northwind.Services
         {
             _repositoryManager = repositoryManager;
             _mapper = mapper;
+        }
+
+        public void CreateOrder(OrderForCreateDto orderForCreateDto, OrderDetailForCreateDto orderDetailCreateDtos)
+        {
+            //insert order
+            var order = _mapper.Map<Order>(orderForCreateDto);
+            _repositoryManager.orderRepository.Insert(order);
+            _repositoryManager.Save();
+
+            //insert order detail
+            var orderDetail = _mapper.Map<OrderDetail>(orderDetailCreateDtos);
+            orderDetail.OrderId = order.OrderId;
+            _repositoryManager.orderRepository.Insert(order);
+            _repositoryManager.Save();
         }
 
         public void CreateProductManyPhoto(ProductForCreateDto productForCreateDto, List<ProductPhotoCreateDto> productPhotoCreateDtos)
@@ -47,6 +63,23 @@ namespace Northwind.Services
             _repositoryManager.Save();
         }
 
+        public void EditProductPhoto(ProductDto productDto, List<ProductPhotoDto> productPhotoDto)
+        {
+            // insert product
+            var productModel = _mapper.Map<Product>(productDto);
+            _repositoryManager.ProductRepository.Edit(productModel);
+            _repositoryManager.Save();
+
+            // insert photo product
+            foreach (var item in productPhotoDto)
+            {
+                item.PhotoProductId = productModel.ProductId;
+                var photoModel = _mapper.Map<ProductPhoto>(item);
+                _repositoryManager.ProductPhotoRepository.Edit(photoModel);
+            }
+            _repositoryManager.Save();
+        }
+
         public async Task<IEnumerable<ProductDto>> GetAllProduct(bool trackChanges)
         {
             var productModel = await _repositoryManager.ProductRepository.GetAllProduct(trackChanges);
@@ -68,24 +101,24 @@ namespace Northwind.Services
             return productDto;
         }
 
-        public async Task<ProductDto> GetProductOnSalesById(int productId, bool trackChanges)
+        public async Task<ProductOrderGroupDto> GetProductOrderOnSalesById(int productId, bool trackChanges)
         {
-            var productModel = await _repositoryManager.ProductRepository.GetProductOnSalesById(productId, trackChanges);
-            var productDto = _mapper.Map<ProductDto>(productModel);
+            var productModel = await _repositoryManager.ProductRepository.GetProductOrderOnSalesById(productId, trackChanges);
+            var productDto = _mapper.Map<ProductOrderGroupDto>(productModel);
             return productDto;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetProductPaged(int pageIndex, int pageSize, bool trackChanges)
-        {
-            var productModel = await _repositoryManager.ProductRepository.GetProductPaged(pageIndex, pageSize, trackChanges);
-            var productDto = _mapper.Map<IEnumerable<ProductDto>>(productModel);
-            return productDto;
-        }
-
-        public async Task<ProductPhotoGroupDto> GetProductPhotoById(int productId, bool trackChanges)
+        public async Task<ProductPhotoGroupDto> GetProductPhotoGroupById(int productId, bool trackChanges)
         {
             var productModel = await _repositoryManager.ProductPhotoRepository.GetProductPhotoById(productId, trackChanges);
             var productDto = _mapper.Map<ProductPhotoGroupDto>(productModel);
+            return productDto;
+        }
+
+        public async Task<ProductDto> GetProductPhotoOnSalesById(int productId, bool trackChanges)
+        {
+            var productModel = await _repositoryManager.ProductRepository.GetProductPhotoOnSalesById(productId, trackChanges);
+            var productDto = _mapper.Map<ProductDto>(productModel);
             return productDto;
         }
 

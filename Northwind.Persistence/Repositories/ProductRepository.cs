@@ -30,6 +30,7 @@ namespace Northwind.Persistence.Repositories
                 .OrderBy(p => p.ProductId)
                 .Include(c => c.Category)
                 .Include(s => s.Supplier)
+                .Include(od => od.OrderDetails)
                 .ToListAsync();
         }
 
@@ -39,6 +40,7 @@ namespace Northwind.Persistence.Repositories
             return await FindByCondition(p => p.ProductId.Equals(productId), trackChanges)
                 .Include(c => c.Category)
                 .Include(s => s.Supplier)
+                .Include(od => od.OrderDetails)
                 .SingleOrDefaultAsync();
         }
 
@@ -57,11 +59,14 @@ namespace Northwind.Persistence.Repositories
             return product;
         }
 
-        public async Task<Product> GetProductOnSalesById(int productId, bool trackChanges)
+        public async Task<Product> GetProductPhotoOnSalesById(int productId, bool trackChanges)
         {
             var products = await FindByCondition(x => x.ProductId.Equals(productId), trackChanges)
                 .Where(y => y.ProductPhotos.Any(p => p.PhotoProductId == productId))
+                .Include(c => c.Category)
+                .Include(s => s.Supplier)
                 .Include(a => a.ProductPhotos)
+                .Include(od => od.OrderDetails)
                 .SingleOrDefaultAsync();
             return products;
         }
@@ -84,6 +89,18 @@ namespace Northwind.Persistence.Repositories
         public void Remove(Product product)
         {
             Delete(product);
+        }
+
+        public async Task<Product> GetProductOrderOnSalesById(int productId, bool trackChanges)
+        {
+            var products = await FindByCondition(x => x.ProductId.Equals(productId), trackChanges)
+                .Where(y => y.ProductPhotos.Any(p => p.PhotoProductId == productId))
+                .Include(c => c.Category)
+                .Include(s => s.Supplier)
+                .Include(o => o.OrderDetails)
+                .Include(a => a.ProductPhotos)
+                .SingleOrDefaultAsync();
+            return products;
         }
     }
 }

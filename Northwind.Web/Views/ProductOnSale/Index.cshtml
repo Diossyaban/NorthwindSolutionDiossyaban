@@ -1,9 +1,14 @@
 ﻿@model IEnumerable<Northwind.Contracts.Dto.Product.ProductDto>
 <div class="flex-lg-warp">
-    <h4>Products On Sale</h4>
-    <link href="~/css/Index.css" rel="stylesheet" type="text/css" />
-
-
+    <h4>
+        <style type="text/css">
+            ;
+          
+        </style> <center> Details Products On Sale </center>
+    </h4>
+    <link href="~/css/backup.css" rel="stylesheet" type="text/css" />
+    <center> <img src="~/css/dios.jpg" /> </center>
+   
     @using (Html.BeginForm("Index", "ProductOnSale", FormMethod.Get))
     {
         <div>
@@ -74,8 +79,7 @@
                     </div>
 
                     </p>
-                           
-                        <a asp-action="" asp-route-id="@item">
+                                    <a asp-action="" asp-route-id="@item">
                             <button type="submit" class="btn-danger me-md-2" type="button">Add To Cart</button>
                         </a>
                         <a asp-action="" asp-route-id="@item.ProductId">
