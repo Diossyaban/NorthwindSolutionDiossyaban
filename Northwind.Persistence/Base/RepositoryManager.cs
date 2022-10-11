@@ -49,8 +49,8 @@ namespace Northwind.Persistence.Base
             }
         }
 
-        public IProductRepository ProductRepository 
-        { 
+        public IProductRepository ProductRepository
+        {
             get
             {
                 if (_productRepository == null)
@@ -61,8 +61,8 @@ namespace Northwind.Persistence.Base
             }
         }
 
-        public ISupplierRepository SupplierRepository 
-        { 
+        public ISupplierRepository SupplierRepository
+        {
             get
             {
                 if (_supplierRepository == null)
@@ -85,28 +85,27 @@ namespace Northwind.Persistence.Base
             }
         }
 
-        public IOrderRepository orderRepository
+        public IOrderDetailRepository OrderDetailRepository
         {
             get
             {
-                if (_orderRepository ==  null)
+                if (_orderDetailRepository == null)
+                {
+                    _orderDetailRepository = new OrderDetailRepository(_dbContext);
+                }
+                return _orderDetailRepository;
+            }
+        }
+
+        public IOrderRepository OrderRepository
+        {
+            get
+            {
+                if (_orderRepository == null)
                 {
                     _orderRepository = new OrderRepository(_dbContext);
                 }
                 return _orderRepository;
-            }
-        }
-
-        IOrderDetailRepository IRepositoryManager.orderDetailRepository
-        {
-            get
-            {
-                if (_orderDetailRepository==null)
-                {
-                    _orderDetailRepository=new OrderDetailRepository(_dbContext);
-
-                }
-                return _orderDetailRepository;
             }
         }
 

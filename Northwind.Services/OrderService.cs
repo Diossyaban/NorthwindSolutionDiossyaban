@@ -28,7 +28,7 @@ namespace Northwind.Services
         public OrderDto CreateOrderId(OrderForCreateDto orderForCreateDto)
         {
             var order = _mapper.Map<Order>(orderForCreateDto);
-            _repositoryManager.orderRepository.Insert(order);
+            _repositoryManager.OrderRepository.Insert(order);
             _repositoryManager.Save();
             var orderDto = _mapper.Map<OrderDto>(order);
             return orderDto;
@@ -37,20 +37,20 @@ namespace Northwind.Services
         public void Edit(OrderDto OrderDto)
         {
             var edit = _mapper.Map<Order>(OrderDto);
-            _repositoryManager.orderRepository.Edit(edit);
+            _repositoryManager.OrderRepository.Edit(edit);
             _repositoryManager.Save();
         }
 
         public async Task<OrderDto> FilterCustId(string custId, bool trackChanges)
         {
-            var model = await _repositoryManager.orderRepository.FilterCustId(custId, trackChanges);
+            var model = await _repositoryManager.OrderRepository.FilterCustId(custId, trackChanges);
             var dto = _mapper.Map<OrderDto>(model);
             return dto;
         }
 
         public async Task<IEnumerable<OrderDto>> GetAllOrder(bool trackChanges)
         {
-            var order = await _repositoryManager.orderRepository.GetAllOrder(trackChanges);
+            var order = await _repositoryManager.OrderRepository.GetAllOrder(trackChanges);
             // source = categoryModel, target = CategoryDto
             var orderDto = _mapper.Map<IEnumerable<OrderDto>>(order);
             return orderDto;
@@ -58,7 +58,7 @@ namespace Northwind.Services
 
         public async Task<OrderDto> GetOrderById(int orderId, bool trackChanges)
         {
-            var model = await _repositoryManager.orderRepository.GetOrderById(orderId, trackChanges);
+            var model = await _repositoryManager.OrderRepository.GetOrderById(orderId, trackChanges);
             var dto = _mapper.Map<OrderDto>(model);
             return dto;
         }
@@ -66,14 +66,14 @@ namespace Northwind.Services
         public void Insert(OrderForCreateDto orderForCreateDto)
         {
             var newData = _mapper.Map<Order>(orderForCreateDto);
-            _repositoryManager.orderRepository.Insert(newData);
+            _repositoryManager.OrderRepository.Insert(newData);
             _repositoryManager.Save();
         }
 
         public void Remove(OrderDto OrderDto)
         {
             var delete = _mapper.Map<Order>(OrderDto);
-            _repositoryManager.orderRepository.Remove(delete);
+            _repositoryManager.OrderRepository.Remove(delete);
             _repositoryManager.Save();
         }
     }

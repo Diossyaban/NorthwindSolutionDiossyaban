@@ -29,13 +29,13 @@ namespace Northwind.Services
         {
             //insert order
             var order = _mapper.Map<Order>(orderForCreateDto);
-            _repositoryManager.orderRepository.Insert(order);
+            _repositoryManager.OrderRepository.Insert(order);
             _repositoryManager.Save();
 
             //insert order detail
             var orderDetail = _mapper.Map<OrderDetail>(orderDetailCreateDtos);
             orderDetail.OrderId = order.OrderId;
-            _repositoryManager.orderRepository.Insert(order);
+            _repositoryManager.OrderRepository.Insert(order);
             _repositoryManager.Save();
         }
 

@@ -9,15 +9,16 @@ namespace Northwind.Domain.Repositories
 {
     public interface IOrderDetailRepository
     {
-        Task<IEnumerable<OrderDetail>> GetAllOrder(bool trackChanges);
-        Task<OrderDetail> GetOrderDetailsById (int orderId,bool trackChanges);
-        Task<OrderDetail> GetOrderDetail(int orderId, int productId, bool trackChanges);
+        Task<IEnumerable<OrderDetail>> GetAllOrderDetail(bool trackChanges);
+        Task<IEnumerable<OrderDetail>> GetAllCartItem(string custId, bool trackChanges);
 
-        void Insert(OrderDetail orderDetail);
-    void Edit(OrderDetail orderDetail);
-    void Remove(OrderDetail orderDetail);
+        Task<OrderDetail> GetOrderDetail(int OrderDetailsId, int productId, bool trackChanges);
+        Task<OrderDetail> GetOrderDetailById(int OrderDetailsId, bool trackChanges);
 
-        /*public virtual Order Order { get; set; }
-        public virtual Product Product { get; set; }*/
+        void Insert(OrderDetail OrderDetails);
+
+        void Edit(OrderDetail OrderDetails);
+
+        void Remove(OrderDetail OrderDetails);
     }
 }

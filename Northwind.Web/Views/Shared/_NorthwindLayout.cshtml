@@ -122,14 +122,14 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
-                    <li class="menu-item">
+                      <li class="menu-item">
                         <a href="index.html" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
                     </li>
 
-       
+
                     <li class="menu-header small text-uppercase active">
                         <span class="menu-header-text">Menus</span>
                     </li>
@@ -179,9 +179,12 @@
                             </li>
                         </ul>
                     </li>
-
-
-
+                    <li class="menu-item">
+                        <a asp-controller="Order" asp-action="Index" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+                            <div data-i18n="Authentications">Order</div>
+                        </a>
+                    </li>
 
 
 

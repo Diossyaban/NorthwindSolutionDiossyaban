@@ -1,240 +1,90 @@
 ﻿@model Northwind.Contracts.Dto.Product.ProductDto
-<div class="col-md-6 col-lg-4">
-@*    <h2>@Html.DisplayFor(Model=>Model.ProductName)</h2>
-*@
-    <link href="~/css/backup.css rel="stylesheet" type="text/css" />
 
+@{
+    ViewData["Title"] = "Details";
+}
 
-</div>
-<h4>
-    <style type="text/css">
-        ;
-        body {
-            font-family: 'Akura Popo';
-            font-size: xx-large;
-        }
-
-        p {
-            font-family: 'Akura Popo';
-            font-size :xx-large;
-        }
-
-        div {
-            font-family: 'Akura Popo';
-            font-size :xx-large;
-        }
-    </style> Details
-</h4>
-<div class="row justify-content-between">
-    <div class="col-lg-6">
-        <div class="woocommerce-product-gallery woocommerce-product-gallery--with-images woocommerce-product-gallery--columns-4 images" data-columns="4" style="opacity: 1; transition: opacity 0.25s ease-in-out 0s;">
-            <figure class="woocommerce-product-gallery__wrapper">
-@*                <div data-thumb="https://www.plini.co/wp-content/uploads/sites/101/2021/10/PLINI_GLITCH_BLACK_TEE-300x300.png" data-thumb-alt="" class="woocommerce-product-gallery__image">
-                    <a href="https://www.plini.co/wp-content/uploads/sites/101/2021/10/PLINI_GLITCH_BLACK_TEE.png">
-                        <img class="card-img-top" src="@Url.Content("~/Resources/images/" + Model.ProductPhotos.FirstOrDefault().PhotoFilename)" alt="Card image cap">
-                    </a>
-                </div>*@
-                <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        @foreach (var item in Model.ProductPhotos)
-                        {
-                            if (Model.ProductPhotos.FirstOrDefault() == item)
-                            {
-                                <div class="carousel-item active">
-                                    <img class="card-img-top"  src="@Url.Content("~/Resources/images/"+item.PhotoFilename)" alt="Card image cap">
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="carousel-item">
-                                    <img class="card-img-top" src="@Url.Content("~/Resources/images/"+item.PhotoFilename)" alt="Card image cap">
-
-                                </div>
-                            }
-                        }
-                        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
+@using (Html.BeginForm("CreateOrderAddCart"
+, "ProductOnSale"
+, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <body>
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">
+                    @Html.HiddenFor(model => model.ProductId)
+                    @Html.HiddenFor(model => model.UnitPrice)
+                    <h4>@Model.ProductName</h4>
                 </div>
-            </figure>
-        </div>
-    </div>
-    <div class="col-lg-6 d-flex align-items-center">
-        <div class="single-product-content">
-            <h1 class="product_title entry-title">@Html.DisplayFor(model=>model.ProductName)</h1>
-@*            <span class=@Html.DisplayFor(model=>model.ProductName)
-*@
-
-            <p class="price">
-                <span class="woocommerce-Price-amount amount">
-                    <bdi>
-                    </bdi>
-                </span>
-
-
-                <small class="woocommerce-price-suffix">Welcome To Di-Os Guitar Store</small>
-            </p>
-            <div class="woocommerce-product-details__short-description">
-            
-                <p class="card-text">
-                    @Html.LabelFor(model=>model.UnitPrice) :
-                    @Html.DisplayFor(model=>model.UnitPrice)
-                    <br>
-                    @Html.LabelFor(model => model.UnitsInStock, htmlAttributes : new{@class="form-label"}) :
-                    @Html.DisplayFor(model => model.UnitsInStock)
-                </p>
-            </div>
-            <form class="variations_form cart" >
-                <table class="variations" cellspacing="0">
-                   @* <tbody>
-                        <tr>
-                            <td class="value"> 
-                                <select id="pa_size" class="" name="attribute_pa_size" data-attribute_name="attribute_pa_size" data-show_option_none="yes">
-                                    <option value="">Kuantitas</option>
-                                    <option value="" class="attached enabled">1</option>
-                                    <option value="" class="attached enabled">2</option>
-                                    <option value="" class="attached enabled">3</option>
-                                    <option value="" class="attached enabled">3</option>
-                                    <option value="" class="attached enabled">4</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>*@
-                </table>
-                <div class="single_variation_wrap">
-                    <div class="woocommerce-variation single_variation" style="display: none;"></div><div class="woocommerce-variation-add-to-cart variations_button woocommerce-variation-add-to-cart-disabled">
-                        <div class="quantity"> 
-                            <label class="screen-reader-text" for="quantity_633da1c40abb8">Kuantitas</label> 
-                            <input type="number" id="quantity_633da1c40abb8" class="input-text qty text" step="1" min="1" max="" name="quantity" value="1" title="Qty" size="4" placeholder="" inputmode="numeric">
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="col-md">
+                            <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner">
+                                    @foreach (var item in Model.ProductPhotos)
+                                    {
+                                        if (Model.ProductPhotos.FirstOrDefault() == item)
+                                        {
+                                            <div class="carousel-item active">
+                                                <img src="@Url.Content("~/Resources/images/" + item.PhotoFilename)" class="card-img-top" alt="Image">
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="carousel-item">
+                                                <img src="@Url.Content("~/Resources/images/" + item.PhotoFilename)" class="card-img-top" alt="Image">
+                                            </div>
+                                        }
+                                    }
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                        <a asp-action="" asp-route-id="@Model.ProductId">
-                            <button type="submit" class="btn-danger me-md-2" type="button">Buy Now</button>
-                        </a>
-                        <input type="hidden" name="add-to-cart" value="697"> 
-                        <input type="hidden" name="product_id" value="697"> 
-                        <input type="hidden" name="variation_id" class="variation_id" value="0">
-                      
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <h3>Product Description</h3>
+                        <h5>Product Name</h5>
+                        <h5>Product Price</h5>
+                        <h5>Category Name</h5>
+                        <h5>Unit Stock</h5>
+                        <h5>Quantity</h5>
+                    </div>
+                    <div class="col-md-6 col-lg-1">
+                        <h3><br /></h3>
+                        <h5>:</h5>
+                        <h5>:</h5>
+                        <h5>:</h5>
+                        <h5>:</h5>
+                    </div>
+                    <div class="cold-md-6 col-lg-4">
+                        <h3><br /></h3>
+                        <h5>@Html.DisplayFor(model => model.ProductName)</h5>
+                        <h5>@Html.DisplayFor(model => model.UnitPrice)</h5>
+                        <h5>@Html.DisplayFor(model => model.Category.CategoryName)</h5>
+                        <h5>@Html.DisplayFor(model => model.UnitsInStock)</h5>
+                        @Html.TextBox("QuantityPerUnit",1,new{@type="number", @id="quantity"})
                     </div>
                 </div>
-            </form>
-        </div><div class=""></div>
-    </div>
- </div>
-                        
-
-
-@*
-<div class="col-md-6 col-lg-4">
-    <div class="card mb-4">
-        <img class="card-img-top"  src="@Url.Content("~/Resources/images/" + Model.ProductPhotos.FirstOrDefault().PhotoFilename)" alt="Card image cap">
-
-<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        @foreach (var item in Model.ProductPhotos)
-                        {
-                            if (Model.ProductPhotos.FirstOrDefault() == item)
-                            {
-                                <div class="carousel-item active">
-                                    <img class="card-img-top"  src="@Url.Content("~/Resources/images/"+item.PhotoFilename)" alt="Card image cap">
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="carousel-item">
-                                    <img class="card-img-top"  src="@Url.Content("~/Resources/images/"+item.PhotoFilename)" alt="Card image cap">
-                                </div>
-                            }
-                        }
-                        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                   </div>
-          </div>
-
-        <div class="card-body">
-            <p class="card-text">
-                <center><b>@Html.DisplayFor(model=>model.ProductName)</b></center>
-            </p>
-            <p class="card-text">
-                @Html.LabelFor(model=>model.UnitPrice) :
-                @Html.DisplayFor(model=>model.UnitPrice)
-                <br>
-                @Html.LabelFor(model => model.UnitsInStock, htmlAttributes : new{@class="form-label"}) :
-                @Html.DisplayFor(model => model.UnitsInStock)
-            </p>
-        </div>
-
-    </div>
-</div>
-
-<div class="cart_form clearfix">
-    <form action="https://www.nafiriguitar.com/cart" id="form-add-to-cart" method="post" class="form-cart-ajax form-cart unique-form">
-        <div class="form_input clearfix">
-            <div class="wrapper qty-box margin-right10">
-                <label>Quantity</label>
-                <div class="selector" id="uniform-product_qty_large" style="width: 60px;">
-                    <span style="width: 38px; user-select: none;">---</span><select name="quantity" id="product_qty_large" data-rules="Quantity-required" required="">
-                        <option value="">---</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                    </select>
-                </div>
-
-            </div>
-
-        </div>
-        <input type="hidden" name="cmd" value="add">
-        <input type="hidden" name="item_id" value="soloking-ms-1-custom-24-hh-flat-top-in-turquoise-wakesurf-mod-with-fishman-fluence-modern">
-        <input type="hidden" name="member_email" id="member_email" value="">
-        <div id="product-stock-status_large" class="margin-bottom10">
-            Available
-        </div>
-        <div class="clearfix">
-            <div class="block_right_submit margin-bottom10" id="product_message_large">
-            </div>
-            <div class="block_left_submit" id="product_button_large">
-                <input type="submit" name="submit" value="Add to cart" class="btn-flat">
+                @*<a asp-action="CreateOrderBuyNow">
+                    <input type="button" class="btn btn-secondary" value="Buy Now">
+                </a>*@
+            <input type="submit" class="btn btn-secondary" value="Buy Now" formaction="@Url.Action("CreateOrderBuyNow")" formmethod="post">
+                @*<input type="submit" class="btn btn-primary" value="Add Cart" formaction="CreateOrderAddCart">*@
+                <button type="submit" class="btn btn-primary" style="margin-left:1200px">Add Cart</button>
             </div>
         </div>
-    </form>
-    <div class="share">
-        <h3>Share : </h3>
-        <!-- AddThis Button BEGIN -->
-        <div class="addthis_toolbox addthis_default_style addthis_16x16_style wrapper">
-            <a class="addthis_button_facebook at300b" title="Facebook" href="#"><img src="https://www.nafiriguitar.com/resources/images/facebook_share.png?hash=1cec3450" alt="Facebook Share"></a>
-            <a class="addthis_button_twitter at300b" title="Twitter" href="#"><img src="https://www.nafiriguitar.com/resources/images/twitter_share.png?hash=1cec3450" alt="Twitter Share"></a>
-            <a class="addthis_button_pinterest_share at300b" target="_blank" title="Pinterest" href="#"><img src="https://www.nafiriguitar.com/resources/images/pinterest_share.png?hash=1cec3450" alt="Pinterest Share"></a>
-            <div class="atclear"></div>
-        </div>
-
-        <script type="text/javascript">var addthis_config = { "data_track_addressbar": true };</script>
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js?domready=1#pubid=ra-51a2f6f07fcdd9ab"></script>
-        <!-- AddThis Button END -->
-    </div>
-
-</div>
-</div>
-<h4> WELCOME TO DI-OS GUITAR HEAVEN</h4>
-
-
-
-<a asp-action="Index">Back to List</a>*@
+    </body>
+}
+@*<script>
+    function getQuantity(){
+        var input = document.getElementById("quantity").value;
+    }
+</script>*@

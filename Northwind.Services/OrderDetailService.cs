@@ -1,18 +1,19 @@
 ﻿using AutoMapper;
+using Northwind.Contracts.Dto.Category;
 using Northwind.Contracts.Dto.OrderDetail;
+using Northwind.Domain.Base;
+using Northwind.Domain.Entities;
+using Northwind.Domain.Models;
 using Northwind.Services.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Northwind.Domain.Base;
-using Northwind.Domain.Models;
 
 namespace Northwind.Services
 {
-    public class OrderDetailService :IOrderDetailService
-
+    public class OrderDetailService : IOrderDetailService
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
@@ -23,46 +24,52 @@ namespace Northwind.Services
             _mapper = mapper;
         }
 
-        public void Edit(OrderDetailDto orderDetailDto)
+        public void Edit(OrderDetailDto OrderDetailDto)
         {
-            var edit = _mapper.Map<OrderDetail>(orderDetailDto);
-            _repositoryManager.orderDetailRepository.Edit(edit);
+            var edit = _mapper.Map<OrderDetail>(OrderDetailDto);
+            _repositoryManager.OrderDetailRepository.Edit(edit);
             _repositoryManager.Save();
-           
+        }
+
+        public async Task<IEnumerable<OrderDetailDto>> GetAllCartItem(string custId, bool trackChanges)
+        {
+            var orderDetails = await _repositoryManager.OrderDetailRepository.GetAllCartItem(custId, trackChanges);
+            var orderDetailsDto = _mapper.Map<IEnumerable<OrderDetailDto>>(orderDetails);
+            return orderDetailsDto;
         }
 
         public async Task<IEnumerable<OrderDetailDto>> GetAllOrderDetail(bool trackChanges)
         {
-            var OrderDtos = await _repositoryManager.orderDetailRepository.GetAllOrder(trackChanges);
-            var orderDetailDtoList = _mapper.Map<IEnumerable<OrderDetailDto>>(OrderDtos);
-            return orderDetailDtoList;
+            var orderDetails = await _repositoryManager.OrderDetailRepository.GetAllOrderDetail(trackChanges);
+            var orderDetailsDto = _mapper.Map<IEnumerable<OrderDetailDto>>(orderDetails);
+            return orderDetailsDto;
         }
 
         public async Task<OrderDetailDto> GetOrderDetail(int orderId, int productId, bool trackChanges)
         {
-            var model = await  _repositoryManager.orderDetailRepository.GetOrderDetail(orderId, productId, trackChanges);
+            var model = await _repositoryManager.OrderDetailRepository.GetOrderDetail(orderId, productId, trackChanges);
             var dto = _mapper.Map<OrderDetailDto>(model);
             return dto;
         }
 
-        public async Task<OrderDetailDto> GetOrderDetailById(int orderid, bool trackChanges)
+        public async Task<OrderDetailDto> GetOrderDetailById(int orderId, bool trackChanges)
         {
-            var orderDtos = await _repositoryManager.orderDetailRepository.GetOrderDetailsById(orderid, trackChanges);
-            var orderDetailDtoList = _mapper.Map<OrderDetailDto>(orderDtos);
-            return orderDetailDtoList;
+            var model = await _repositoryManager.OrderDetailRepository.GetOrderDetailById(orderId, trackChanges);
+            var dto = _mapper.Map<OrderDetailDto>(model);
+            return dto;
         }
 
-        public void Insert(OrderDetailForCreateDto orderDetailForCreateDto)
+        public void Insert(OrderDetailForCreateDto OrderDetailForCreateDto)
         {
-            var insert =_mapper.Map<OrderDetail>(orderDetailForCreateDto);
-            _repositoryManager.orderDetailRepository.Insert(insert);
+            var newData = _mapper.Map<OrderDetail>(OrderDetailForCreateDto);
+            _repositoryManager.OrderDetailRepository.Insert(newData);
             _repositoryManager.Save();
         }
 
-        public void Remove(OrderDetailDto orderDetailDto)
+        public void Remove(OrderDetailDto OrderDetailDto)
         {
-            var remove = _mapper.Map<OrderDetail>(orderDetailDto);
-            _repositoryManager.orderDetailRepository.Remove(remove);
+            var delete = _mapper.Map<OrderDetail>(OrderDetailDto);
+            _repositoryManager.OrderDetailRepository.Remove(delete);
             _repositoryManager.Save();
         }
     }

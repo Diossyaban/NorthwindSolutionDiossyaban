@@ -6,8 +6,8 @@
           
         </style> <center> Details Products On Sale </center>
     </h4>
-    <link href="~/css/backup.css" rel="stylesheet" type="text/css" />
-    <center> <img src="~/css/dios.jpg" /> </center>
+@*    <link href="~/css/backup.css" rel="stylesheet" type="text/css" />
+*@    <center> <img src="~/css/dios.jpg" /> </center>
    
     @using (Html.BeginForm("Index", "ProductOnSale", FormMethod.Get))
     {
@@ -59,7 +59,7 @@
                         <br>
                   <center></center>  <img class="card-img-top" style="width:100px" src="@Url.Content("~/Resources/images/mama.png")" alt="Card image cap">
                    
-                  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+                 @* <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
                     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
                     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
                     <!------ Include the above in your HEAD tag ---------->
@@ -78,7 +78,7 @@
                         </span>
                     </div>
 
-                    </p>
+                    </p>*@
                                     <a asp-action="" asp-route-id="@item">
                             <button type="submit" class="btn-danger me-md-2" type="button">Add To Cart</button>
                         </a>

@@ -14,9 +14,9 @@ namespace Northwind.Domain.Base
         IProductRepository ProductRepository { get; }
         ISupplierRepository SupplierRepository { get; }
         IProductPhotoPhotoRepository ProductPhotoRepository { get; }
-        IOrderDetailRepository orderDetailRepository { get; }
+        IOrderDetailRepository OrderDetailRepository { get; }
+        IOrderRepository OrderRepository { get; }
 
-        IOrderRepository orderRepository { get; }   
         void Save();
 
         Task SaveAsync();
